@@ -1,4 +1,5 @@
 import { projects } from "@/data/projects";
+import { archive } from "@/data/archive";
 
 const languageColor: Record<string, string> = {
   TypeScript: "#3178c6",
@@ -7,6 +8,8 @@ const languageColor: Record<string, string> = {
 };
 
 export default function Home() {
+  const total = projects.length + archive.reduce((n, g) => n + g.items.length, 0);
+
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-20 sm:py-28">
       <header>
@@ -14,8 +17,9 @@ export default function Home() {
           Amon
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-muted">
-          I build software — AI agents and tooling, web applications, and the
-          occasional game. Most of it starts as a question I wanted answered.
+          I build software — AI agents and tooling, health and logistics
+          platforms, web applications, and the occasional game. {total} projects
+          here, going back to 2013.
         </p>
         <a
           href="https://github.com/amonxnye"
@@ -26,12 +30,12 @@ export default function Home() {
         </a>
       </header>
 
-      <section className="mt-16" aria-labelledby="projects-heading">
+      <section className="mt-16" aria-labelledby="featured-heading">
         <h2
-          id="projects-heading"
+          id="featured-heading"
           className="font-mono text-xs uppercase tracking-widest text-muted"
         >
-          Selected projects
+          Selected work
         </h2>
 
         <ul className="mt-6 space-y-4">
@@ -71,6 +75,62 @@ export default function Home() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mt-20" aria-labelledby="archive-heading">
+        <h2
+          id="archive-heading"
+          className="font-mono text-xs uppercase tracking-widest text-muted"
+        >
+          Everything else
+        </h2>
+        <p className="mt-4 leading-relaxed text-muted">
+          The rest of the work, grouped by what it was for. Entries without a
+          link are private repositories.
+        </p>
+
+        <div className="mt-10 space-y-12">
+          {archive.map((group) => (
+            <section key={group.title} aria-label={group.title}>
+              <h3 className="text-base font-medium">{group.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                {group.note}
+              </p>
+
+              <ul className="mt-4 divide-y divide-border border-t border-border">
+                {group.items.map((item) => {
+                  const meta = (
+                    <span className="flex shrink-0 items-center gap-3 font-mono text-xs text-muted">
+                      <span>{item.stack}</span>
+                      <span className="w-9 text-right">{item.year ?? "—"}</span>
+                    </span>
+                  );
+
+                  return (
+                    <li key={item.name}>
+                      {item.url ? (
+                        <a
+                          href={item.url}
+                          className="flex items-baseline justify-between gap-4 py-2.5 hover:text-accent"
+                        >
+                          <span className="min-w-0 truncate">{item.name}</span>
+                          {meta}
+                        </a>
+                      ) : (
+                        <div className="flex items-baseline justify-between gap-4 py-2.5">
+                          <span className="min-w-0 truncate text-muted">
+                            {item.name}
+                          </span>
+                          {meta}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))}
+        </div>
       </section>
 
       <footer className="mt-20 border-t border-border pt-8 font-mono text-xs text-muted">
