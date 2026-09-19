@@ -1,7 +1,7 @@
 # Amon
 Amon Website projects
 
-A personal site listing the things I've built. Static Next.js site, no backend.
+A personal site listing the things I've built.
 
 ## Development
 
@@ -13,11 +13,22 @@ npm run dev     # http://localhost:3000
 ## Build
 
 ```bash
-npm run build   # static site written to ./out
+npm run build
 ```
 
-`next.config.ts` sets `output: "export"`, so the build produces a plain
-HTML/CSS/JS bundle in `out/` that any static host will serve.
+## Deployment
+
+Deployed to **Firebase App Hosting**, which runs the app as a server.
+
+`next.config.ts` sets `output: "standalone"` because App Hosting's Next.js
+adapter builds the app and then reads
+`.next/standalone/.next/routes-manifest.json`. Do not change this to
+`output: "export"` — a static export writes to `out/` and never creates that
+file, and the deploy fails with `ENOENT`.
+
+The page itself is statically prerendered, so if you ever want to host it as
+plain files instead, switch to `output: "export"` and serve `out/` from
+classic Firebase Hosting rather than App Hosting.
 
 ## Adding a project
 
