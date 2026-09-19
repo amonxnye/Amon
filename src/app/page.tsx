@@ -65,6 +65,7 @@ export default function Home() {
                     {project.language}
                   </span>
                   <span>{project.year}</span>
+                  {project.demo ? <span>live</span> : null}
                 </div>
               </a>
             </li>
