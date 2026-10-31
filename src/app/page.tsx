@@ -5,6 +5,7 @@ const languageColor: Record<string, string> = {
   TypeScript: "#3178c6",
   Python: "#3572a5",
   HTML: "#e34c26",
+  JavaScript: "#f1e05a",
 };
 
 export default function Home() {
@@ -42,7 +43,7 @@ export default function Home() {
           {projects.map((project) => (
             <li key={project.name}>
               <a
-                href={project.url}
+                href={project.url ?? project.demo}
                 className="group block rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -57,17 +58,19 @@ export default function Home() {
                 </p>
 
                 <div className="mt-4 flex items-center gap-4 font-mono text-xs text-muted">
-                  <span className="inline-flex items-center gap-1.5">
-                    <span
-                      aria-hidden="true"
-                      className="size-2 rounded-full"
-                      style={{
-                        backgroundColor:
-                          languageColor[project.language] ?? "currentColor",
-                      }}
-                    />
-                    {project.language}
-                  </span>
+                  {project.language ? (
+                    <span className="inline-flex items-center gap-1.5">
+                      <span
+                        aria-hidden="true"
+                        className="size-2 rounded-full"
+                        style={{
+                          backgroundColor:
+                            languageColor[project.language] ?? "currentColor",
+                        }}
+                      />
+                      {project.language}
+                    </span>
+                  ) : null}
                   <span>{project.year}</span>
                   {project.demo ? <span>live</span> : null}
                 </div>
